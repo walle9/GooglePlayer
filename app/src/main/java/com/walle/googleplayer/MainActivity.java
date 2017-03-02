@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         //得到ActionBar的实例
         //getActionBar(); //android sdk actionbar
         ActionBar supportActionBar = getSupportActionBar(); //V7包中
+        //supportActionBar.hide();    //隐藏ActionBar
 
         //设置标题
         supportActionBar.setTitle("GooglePlayer");
