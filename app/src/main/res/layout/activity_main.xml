@@ -26,15 +26,21 @@
     </FrameLayout>
 
     <!--内容区域-->
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:id="@+id/activity_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello World!"/>
-    </RelativeLayout>
+        <!--PagerSlidingTabStrip-->
+        <com.astuetz.PagerSlidingTabStrip
+            android:id="@+id/main_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"></com.astuetz.PagerSlidingTabStrip>
+        <!--viewPager-->
+        <android.support.v4.view.ViewPager
+            android:id="@+id/main_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+    </LinearLayout>
 </android.support.v4.widget.DrawerLayout>
