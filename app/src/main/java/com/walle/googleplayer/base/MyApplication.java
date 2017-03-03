@@ -7,6 +7,8 @@ import android.os.Process;
 
 /**
  * Created by walle9 on 2017/3/1.
+ * 全局单例
+ * 易错点:需要在清单文件中进行配置
  */
 
 public class MyApplication extends Application {
@@ -17,6 +19,7 @@ public class MyApplication extends Application {
 
     /**
      * 得到上下文
+     *
      * @return
      */
     public static Context getContext() {
@@ -25,6 +28,7 @@ public class MyApplication extends Application {
 
     /**
      * 得到主线程里面的创建的一个hanlder
+     *
      * @return
      */
     public static Handler getMainThreadHandler() {
@@ -33,6 +37,7 @@ public class MyApplication extends Application {
 
     /**
      * 得到主线程的线程id
+     *
      * @return
      */
     public static int getMMainThreadId() {

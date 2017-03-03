@@ -1,6 +1,9 @@
 package com.walle.googleplayer;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -9,6 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.astuetz.PagerSlidingTabStripExtends;
+import com.walle.googleplayer.factory.FragmentFactory;
+import com.walle.googleplayer.utils.UIUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -16,11 +22,13 @@ import butterknife.InjectView;
 public class MainActivity extends AppCompatActivity {
 
     @InjectView(R.id.main_tabs)
-    PagerSlidingTabStrip mainTabs;
+    PagerSlidingTabStripExtends mainTabs;
     @InjectView(R.id.main_viewpager)
     ViewPager mainViewpager;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
+    private String[] mMainTitles;
+    private MainPagerAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +38,9 @@ public class MainActivity extends AppCompatActivity {
         initActionBar();
         initview();
         initActionBarDrawerToggle();
-
+        initData();
     }
+
 
     private void initview() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawerlayout);
@@ -72,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout.setDrawerListener(mToggle);
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -83,6 +93,71 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * 给ViewPager设置adapter
+     * 绑定SlidingTab和ViewPager
+     */
+    private void initData() {
+        //模拟数据集
+        mMainTitles = UIUtils.getStrings(R.array.main_titles);
+        //给ViewPager设置adapter
+        mAdapter = new MainPagerAdapter(getSupportFragmentManager());
+        mainViewpager.setAdapter(mAdapter);
+        // 绑定SlidingTab和ViewPager
+        mainTabs.setViewPager(mainViewpager);
+
+    }
+
+    /**
+     * 主页面ViewPager的Adapter
+     * PagerAdapter-->View
+     * FragmentStatePagerAdapter-->Fragment
+     * FragmentPagerAdapter-->Fragment
+     */
+    class MainPagerAdapter extends FragmentPagerAdapter {
+
+        public MainPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        /**
+         * //指定Position所对应的页面的Fragment内容
+         *
+         * @param position
+         * @return
+         */
+        @Override
+        public Fragment getItem(int position) {
+            Fragment fragment = FragmentFactory.createFragment(position);
+            return fragment;
+        }
+
+        /**
+         * //决定Vipage页数的总和
+         *
+         * @return
+         */
+        @Override
+        public int getCount() {
+            if (mMainTitles != null) {
+                return mMainTitles.length;
+            }
+            return 0;
+        }
+
+        /**
+         * ViewPager和PagerSlidingTabStrip进行绑定,必须复写Adapter中的这个方法,因为这个
+         * 方法默认返回的是null
+         *
+         * @param position
+         * @return
+         */
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mMainTitles[position];
+        }
     }
 }
 
